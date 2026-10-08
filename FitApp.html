@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FitDrive Luxury</title>
+    <style>
+        :root {
+            --bg-body: #0b0f14;
+            --panel-bg: rgba(22, 28, 36, 0.75);
+            --card-bg: rgba(30, 38, 48, 0.85);
+            --accent-gold: #f3a838;
+            --gold-gradient: linear-gradient(135deg, #f3a838 0%, #c47c17 100%);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-glow: rgba(243, 168, 56, 0.25);
+            --border-dim: rgba(255, 255, 255, 0.08);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(243, 168, 56, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(30, 41, 59, 0.5) 0%, transparent 50%);
+            color: var(--text-primary);
+            padding: 20px 16px;
+            max-width: 520px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        header h1 {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            margin-top: 4px;
+        }
+
+        .notif-btn {
+            width: 100%;
+            background: var(--gold-gradient);
+            color: #0b0f14;
+            border: none;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border-radius: var(--radius);
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(243, 168, 56, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .notif-btn:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        .status-badge {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glow);
+            text-align: center;
+            padding: 14px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .day-selector {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 2px 15px;
+            margin-bottom: 15px;
+            scrollbar-width: none;
+        }
+        .day-selector::-webkit-scrollbar { display: none; }
+
+        .day-btn {
+            background: var(--panel-bg);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-dim);
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .day-btn.active {
+            background: var(--gold-gradient);
+            color: #0b0f14;
+            border-color: var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(243, 168, 56, 0.3);
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 18px;
+            border: 1px solid var(--border-dim);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease;
+        }
+
+        .card-header-banner {
+            height: 100px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-header-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--card-bg) 0%, transparent 100%);
+        }
+
+        .card-content {
+            padding: 18px;
+            position: relative;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .meal-tag {
+            background: rgba(243, 168, 56, 0.15);
+            color: var(--accent-gold);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            border: 1px solid rgba(243, 168, 56, 0.3);
+        }
+
+        .meal-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .meal-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .meal-desc {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .checklist li {
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            margin-bottom: 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border-dim);
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-gold);
+        }
+
+        .checklist span {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FITDRIVE & GAIN</h1>
+        <p>الأنظمة الغذائية والتنسيق الرياضي اليومي</p>
+    </header>
+
+    <button class="notif-btn" onclick="requestNotificationPermission()">
+        <span>🔔</span>
+        <span>تفعيل التنبيهات والإشعارات</span>
+    </button>
+
+    <div class="status-badge" id="status-badge">...</div>
+
+    <div class="day-selector" id="day-buttons"></div>
+
+    <div id="content-area"></div>
+
+    <script>
+        const appData = {
+            "السبت": {
+                status: "🏋️‍♂️ اليوم: Push Day (صدر + أكتاف + تراي)",
+                meals: [
+                    { type: "الإفطار", time: "07:30 ص", title: "شوفان الباور بالتمر والزبادي", desc: "4 معالق شوفان + كوب حليب + علبة زبادي + 3 تمرات + موزة.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "سناك السواقة", time: "11:00 ص", title: "تركيز وانتعاش الطريق", desc: "قبضة مكسرات نيئة (لوز/جوز) + تفاحة + 1.5 لتر مياه + بيبسي دايت.", banner: "linear-gradient(135deg, #334155, #1e293b)" },
+                    { type: "الغداء", time: "01:30 م", title: "دجاج مشوي / مضبي مع رز مقنن", desc: "صدر دجاج مضبي + 5 معالق رز مندي + سلطة خضراء + شوربة خفيفة.", banner: "linear-gradient(135deg, #475569, #334155)" },
+                    { type: "قبل الجيم", time: "05:30 م", title: "زبادي يوناني وتمر", desc: "علبة زبادي + 2 حبة تمر + فنجان قهوة سوداء لرفع الباور.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "العشاء", time: "10:00 م", title: "تونة بالزبادي والخضار", desc: "علبة تونة مصفاة + علبة زبادي + خيار وطماطم + نصف رغيف بر.", banner: "linear-gradient(135deg, #334155, #1e293b)" }
+                ]
+            },
+            "الأحد": {
+                status: "🏋️‍♂️ اليوم: Pull Day (ظهر + مجنص + بايسبس)",
+                meals: [
+                    { type: "الإفطار", time: "07:30 ص", title: "جبن قريش/فيتا وزيت زيتون", desc: "3 معالق جبن قريش + طماطم وخيار + زيت زيتون + خبز بر + كوب حليب.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "الغداء", time: "01:30 م", title: "لحم مشوي / كباب", desc: "لحم مشوي أو كباب + 5 معالق رز + سلطة خضراء وشوربة.", banner: "linear-gradient(135deg, #475569, #334155)" },
+                    { type: "العشاء", time: "10:00 م", title: "شرائح تركي مدخن وزبادي", desc: "4 شرائح تركي مدخن + علبة زبادي + سلطة خضراء كبيرة.", banner: "linear-gradient(135deg, #334155, #1e293b)" }
+                ]
+            },
+            "الاثنين": {
+                status: "🧘‍♂️ اليوم: راحة واستشفاء (Rest Day)",
+                meals: [
+                    { type: "الإفطار", time: "07:30 ص", title: "شوفان بالتمر والحليب", desc: "4 معالق شوفان + حليب + زبادي + 3 تمرات.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "الغداء", time: "01:30 م", title: "دجاج شواية بالسلطة", desc: "دجاج شواية بدون جلد + 5 معالق رز + سلطة وشوربة.", banner: "linear-gradient(135deg, #475569, #334155)" },
+                    { type: "العشاء", time: "10:00 م", title: "فول مدمس بالزيت وزبادي", desc: "طبق فول صغير بمسحة زيت زيتون + سلطة + علبة زبادي + خبز بر.", banner: "linear-gradient(135deg, #334155, #1e293b)" }
+                ]
+            },
+            "الثلاثاء": {
+                status: "🏋️‍♂️ اليوم: Legs Day (تمرين الأرجل الكامل)",
+                meals: [
+                    { type: "الإفطار", time: "07:30 ص", title: "معصوب بر بموز (باور الأرجل)", desc: "معصوب عادي (خبز بر وموز فقط) + علبة زبادي.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "الغداء", time: "01:30 م", title: "كفتة مشوية وسلطة", desc: "كفتة مشوية + 5 معالق رز + سلطة خضراء كبيرة.", banner: "linear-gradient(135deg, #475569, #334155)" },
+                    { type: "العشاء", time: "10:00 م", title: "صدر دجاج / تونة وزبادي", desc: "صدر دجاج مشوي باقي من الغداء أو تونة + سلطة + زبادي.", banner: "linear-gradient(135deg, #334155, #1e293b)" }
+                ]
+            },
+            "الأربعاء": {
+                workout: "🏋️‍♂️ اليوم: Push / Pull أو تمارين خفيفة",
+                meals: [
+                    { type: "الإفطار", time: "07:30 ص", title: "جبن خفيف وخيار وتمر", desc: "جبن أبيض خفيف + طماطم وخيار + خبز بر + حليب.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "الغداء", time: "01:30 م", title: "سمك مشوي مع رز", desc: "سمك مشوي + 5 معالق رز + سلطة خضراء.", banner: "linear-gradient(135deg, #475569, #334155)" },
+                    { type: "العشاء", time: "10:00 م", title: "علبة تونة وزبادي", desc: "تونة مصفاة + علبة زبادي + خيار طازج.", banner: "linear-gradient(135deg, #334155, #1e293b)" }
+                ]
+            },
+            "الخميس": {
+                status: "⚽ اليوم: مباراة كرة القدم (10:30 ليلاً)",
+                meals: [
+                    { type: "الإفطار", time: "07:30 ص", title: "شوفان بالتمر والحليب", desc: "شوفان مع حليب وزبادي و3 تمرات.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "الغداء", time: "01:30 م", title: "مطبق مالح ناشف على الصاج", desc: "مطبق مالح بالبيض والخضار (ناشف) + زبادي + سلطة.", banner: "linear-gradient(135deg, #475569, #334155)" },
+                    { type: "قبل الكورة", time: "07:30 م", title: "شحن طاقة المباراة (معصوب بر)", desc: "صحن معصوب بر بموز (بدون قشطة أو سمن) + زبادي.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "بعد المباراة", time: "01:00 ص", title: "استشفاء ما بعد الكورة", desc: "زبادي يوناني + 3 شرائح تركي مدخن (بدون كربوهيدرات).", banner: "linear-gradient(135deg, #334155, #1e293b)" }
+                ]
+            },
+            "الجمعة": {
+                status: "🛒 اليوم: التسوق الأسبوعي والاستراحة",
+                shoppingList: [
+                    "شوفان كامل الحبة", "تمر نوع ممتاز", "موز وتفاح", "مكسرات نيئة (لوز/جوز)",
+                    "زبادي بلدي ويوناني", "حليب قليل الدسم", "جبن قريش / خفيف الدسم", "علب تونة مصفاة",
+                    "شرائح تركي مدخن", "خبز بر / أسمر", "كرتونة مياه زجاجات صغيرة", "شدة بيبسي دايت", "خيار وطماطم"
+                ],
+                meals: [
+                    { type: "التسوق", time: "12:00 ظ", title: "تذكير تسوق المول الأسبوعي", desc: "راجع لستة التسوق واشترِ احتياجات الأسبوع كاملة.", banner: "linear-gradient(135deg, #1e293b, #0f172a)" },
+                    { type: "الغداء", time: "02:30 م", title: "مشويات عائلية وسلطات", desc: "مشويات مشكلة + 5 معالق رز + سلطة خضراء.", banner: "linear-gradient(135deg, #475569, #334155)" },
+                    { type: "العشاء", time: "09:30 م", title: "عشاء خفيف مريح", desc: "زبادي يوناني مع شوفان وتمر أو جبن خفيف وسلطة.", banner: "linear-gradient(135deg, #334155, #1e293b)" }
+                ]
+            }
+        };
+
+        const dayNames = ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+
+        function buildDayButtons() {
+            const container = document.getElementById('day-buttons');
+            container.innerHTML = dayNames.map(day => 
+                `<button class="day-btn" id="btn-${day}" onclick="selectDay('${day}')">${day}</button>`
+            ).join('');
+        }
+
+        function selectDay(day) {
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-${day}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const dayData = appData[day] || appData["السبت"];
+            document.getElementById('status-badge').innerText = dayData.status || dayData.workout || "جدول اليوم";
+
+            let html = '';
+
+            if (dayData.shoppingList) {
+                html += `
+                    <div class="card" style="padding: 18px;">
+                        <span class="meal-tag">🛒 قائمة تسوق المول (تذكير الجمعة 12:00 ظهراً)</span>
+                        <ul class="checklist">
+                            ${dayData.shoppingList.map(item => `
+                                <li>
+                                    <input type="checkbox">
+                                    <span>${item}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (dayData.meals) {
+                dayData.meals.forEach(m => {
+                    html += `
+                        <div class="card">
+                            <div class="card-header-banner" style="background: ${m.banner};"></div>
+                            <div class="card-content">
+                                <div class="card-top">
+                                    <span class="meal-tag">${m.type}</span>
+                                    <span class="meal-time">${m.time}</span>
+                                </div>
+                                <div class="meal-title">${m.title}</div>
+                                <div class="meal-desc">${m.desc}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('content-area').innerHTML = html;
+        }
+
+        function requestNotificationPermission() {
+            if ("Notification" in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        alert("✅ تم تفعيل التنبيهات بنجاح!");
+                    } else {
+                        alert("⚠️ يرجى السماح بالتنبيهات من إعداداتSafari.");
+                    }
+                });
+            } else {
+                alert("التنبيهات مدعومة داخل متصفح Safari المباشر.");
+            }
+        }
+
+        // تشغيل مباشر وبدون أي انتظار
+        document.addEventListener('DOMContentLoaded', () => {
+            buildDayButtons();
+            selectDay("السبت");
+        });
+    </script>
+</body>
+</html>
